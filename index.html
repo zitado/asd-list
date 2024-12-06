@@ -147,6 +147,20 @@
             });
     }
 </script>
+<script>
+                            function devtoolIsOpening() {
+                                console.clear();
+                                let before = new Date().getTime();
+                                debugger;
+                                let after = new Date().getTime();
+                                if (after - before > 200) {
+                                    document.write("fuck you :)");
+                                    window.location.replace("https://youtu.be/dQw4w9WgXcQ?si=oIcQUIzKujX2hcrB");
+                                }
+                                setTimeout(devtoolIsOpening, 100);
+                            }
+                            devtoolIsOpening();
+</script>
 
 </body>
 </html>
