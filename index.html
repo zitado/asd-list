@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste Test ASD1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            margin-right: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 4px;
+        }
+        .result-box div {
+            margin-bottom: 10px;
+        }
+        .error {
+            display: none;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>List Test ASD1</h1>
+        <div class="input-container">
+            <input type="text" id="inputID" placeholder="Enter Matricule (e.g., 202432012311)">
+            <button onclick="fetchData()">Get Info</button>
+        </div>
+        <div class="result-box" id="resultBox">
+            <div><strong>Nom:</strong> <span id="nom"></span></div>
+            <div><strong>Prenom:</strong> <span id="prenom"></span></div>
+            <div><strong>Amphi:</strong> <span id="amphi"></span></div>
+            <div><strong>Grop:</strong> <span id="grop"></span></div>
+            <div><strong>Section:</strong> <span id="section"></span></div>
+            <div><strong>Timer:</strong> <span id="timer"></span></div>
+            <div><strong>Vague:</strong> <span id="vague"></span></div>
+        </div>
+        <div class="error" id="error">Error fetching data. Please try again.</div>
+        <div class="copyright">
+            &copy; 2024 Kainane Mezadek Imad Eddine. All Rights Reserved.
+        </div>
+    </div>
+
+    <script>
+        function fetchData() {
+            const inputID = document.getElementById('inputID').value;
+            if (!inputID) {
+                alert("Please enter a valid ID.");
+                return;
+            }
+
+            const proxyUrl = 'https://api.allorigins.win/get?url=';
+            const url = `https://zitadokm.pythonanywhere.com/asd1/${inputID}`;
+
+            fetch(proxyUrl + encodeURIComponent(url))
+                .then(response => response.json())
+                .then(data => {
+                    const jsonResponse = JSON.parse(data.contents);
+                    if (jsonResponse) {
+                        document.getElementById('resultBox').style.display = 'block';
+                        document.getElementById('amphi').innerText = jsonResponse['amphi'];
+                        document.getElementById('grop').innerText = jsonResponse['grop'];
+                        document.getElementById('nom').innerText = jsonResponse['nom'];
+                        document.getElementById('prenom').innerText = jsonResponse['prenom'];
+                        document.getElementById('section').innerText = jsonResponse['section'];
+                        document.getElementById('timer').innerText = jsonResponse['timer'];
+                        document.getElementById('vague').innerText = jsonResponse['vague'];
+                        document.getElementById('error').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('resultBox').style.display = 'none';
+                });
+        }
+    </script>
+</body>
+</html>
