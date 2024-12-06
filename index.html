@@ -98,39 +98,55 @@
         </div>
     </div>
 
-    <script>
-        function fetchData() {
-            const inputID = document.getElementById('inputID').value;
-            if (!inputID) {
-                alert("Please enter a valid ID.");
-                return;
-            }
+ <script>
+    function fetchData() {
+        const inputID = document.getElementById('inputID').value;
+        if (!inputID) {
+            alert("Please enter a valid ID.");
+            return;
+        }
 
-            const proxyUrl = 'https://api.allorigins.win/get?url=';
-            const url = `https://zitadokm.pythonanywhere.com/asd1/${inputID}`;
+        const proxyUrl = 'https://api.allorigins.win/get?url=';
+        const url = `https://zitadokm.pythonanywhere.com/asd1/${inputID}`;
 
-            fetch(proxyUrl + encodeURIComponent(url))
-                .then(response => response.json())
-                .then(data => {
-                    const jsonResponse = JSON.parse(data.contents);
-                    if (jsonResponse) {
+        fetch(proxyUrl + encodeURIComponent(url))
+            .then(response => response.json())
+            .then(data => {
+                const jsonResponse = JSON.parse(data.contents);
+                if (jsonResponse) {
+                    const nom = jsonResponse['nom'];
+                    const prenom = jsonResponse['prenom'];
+                    const amphi = jsonResponse['amphi'];
+                    const grop = jsonResponse['grop'];
+                    const section = jsonResponse['section'];
+                    const timer = jsonResponse['timer'];
+                    const vague = jsonResponse['vague'];
+
+                    if (nom === undefined || prenom === undefined || amphi === undefined || grop === undefined || section === undefined || timer === undefined || vague === undefined) {
+                        document.getElementById('error').innerText = 'لست في القائمة ! يرجى التواصل : https://t.me/L1infoigmo';
+                        document.getElementById('error').style.display = 'block';
+                        document.getElementById('resultBox').style.display = 'none';
+                    } else {
                         document.getElementById('resultBox').style.display = 'block';
-                        document.getElementById('amphi').innerText = jsonResponse['amphi'];
-                        document.getElementById('grop').innerText = jsonResponse['grop'];
-                        document.getElementById('nom').innerText = jsonResponse['nom'];
-                        document.getElementById('prenom').innerText = jsonResponse['prenom'];
-                        document.getElementById('section').innerText = jsonResponse['section'];
-                        document.getElementById('timer').innerText = jsonResponse['timer'];
-                        document.getElementById('vague').innerText = jsonResponse['vague'];
+                        document.getElementById('nom').innerText = nom;
+                        document.getElementById('prenom').innerText = prenom;
+                        document.getElementById('amphi').innerText = amphi;
+                        document.getElementById('grop').innerText = grop;
+                        document.getElementById('section').innerText = section;
+                        document.getElementById('timer').innerText = timer;
+                        document.getElementById('vague').innerText = vague;
                         document.getElementById('error').style.display = 'none';
                     }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                    document.getElementById('error').style.display = 'block';
-                    document.getElementById('resultBox').style.display = 'none';
-                });
-        }
-    </script>
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                document.getElementById('error').innerText = 'Error fetching data. Please try again.';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('resultBox').style.display = 'none';
+            });
+    }
+</script>
+
 </body>
 </html>
